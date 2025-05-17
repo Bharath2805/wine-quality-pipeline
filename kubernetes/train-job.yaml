@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wine-trainer-job
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      serviceAccountName: artifact-reader
+  # Or replace with a custom K8s ServiceAccount if you have one
+      containers:
+        - name: wine-trainer
+          image: europe-west3-docker.pkg.dev/ml-pipeline-demo-460014/ml-models/wine-quality-trainer
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "2Gi"
+              ephemeral-storage: "1Gi"
+            limits:
+              cpu: "500m"
+              memory: "2Gi"
+              ephemeral-storage: "1Gi"
+      restartPolicy: Never
